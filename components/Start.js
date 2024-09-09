@@ -29,11 +29,14 @@ const Start = ({ navigation }) => {
         />
         <Text style={{ fontSize: 16, fontWeight: 300, color: '#757083', opacity: 1, marginTop: 20 }}> Choose Background Color:</Text>
         <View style={styles.colorPaletteContainer}>
-          {backgroundColors.map(color => 
+          {/* Map through backgroundColors array to implement TouchableOpacity component according to the given colors  */}
+          {backgroundColors.map(color =>
           <TouchableOpacity
             key={color}
             style={[styles.colorPalette, { backgroundColor: color }, styles.colorBorder, backgroundColor == color && styles.clickedCircle]}
-            onPress={() => setBackgroundColor(prevState => prevState = color)}
+            onPress={() => setBackgroundColor(prevState => 
+              prevState === color ? prevState = '#ffffff' : color
+            )}
           />
         )}
         </View>
