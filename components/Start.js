@@ -6,7 +6,9 @@ import {
   TextInput,
   ImageBackground,
 } from "react-native"
-import { useState, useEffect } from "react"
+import { useState} from "react"
+
+const backgroundColors = ['#090C08', '#474056', '#8A95A5', '#B9C6AE']
 
 const Start = ({ navigation }) => {
   const [name, setName] = useState("")
@@ -27,19 +29,13 @@ const Start = ({ navigation }) => {
         />
         <Text style={{ fontSize: 16, fontWeight: 300, color: '#757083', opacity: 1, marginTop: 20 }}> Choose Background Color:</Text>
         <View style={styles.colorPaletteContainer}>
+          {backgroundColors.map(color => 
           <TouchableOpacity
-            style={[styles.colorPalette, { backgroundColor: '#090C08' }, styles.colorBorder]}
-            onPress={() => setBackgroundColor(prevState => prevState = '#090C08')}
+            key={color}
+            style={[styles.colorPalette, { backgroundColor: color }, styles.colorBorder, backgroundColor == color && styles.clickedCircle]}
+            onPress={() => setBackgroundColor(prevState => prevState = color)}
           />
-          <TouchableOpacity style={[styles.colorPalette, { backgroundColor: '#474056' }]}
-            onPress={() => setBackgroundColor(prevState => prevState = '#474056')}
-          />
-          <TouchableOpacity style={[styles.colorPalette, { backgroundColor: '#8A95A5' }]}
-            onPress={() => setBackgroundColor(prevState => prevState = '#8A95A5')}
-          />
-          <TouchableOpacity style={[styles.colorPalette, { backgroundColor: '#B9C6AE' }]}
-            onPress={() => setBackgroundColor(prevState => prevState = '#B9C6AE')}
-          />
+        )}
         </View>
         <TouchableOpacity
           style={styles.touchable}
@@ -69,6 +65,10 @@ const styles = StyleSheet.create({
     color: "#757083",
     textAlign: "left",
     opacity: 0.5
+  },
+  clickedCircle: {
+    borderWidth: 3,
+    borderColor: '#abdbe3'
   },
   title: {
     fontSize: 45,
