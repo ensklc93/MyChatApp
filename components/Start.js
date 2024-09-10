@@ -16,7 +16,7 @@ const Start = ({ navigation }) => {
   
   return (
     <ImageBackground
-      source={{ uri: 'https://res.cloudinary.com/dairg2ycy/image/upload/v1725576472/Background-Image_iezi9k.png' }}
+      source={require('../assets/Background-Image.png')}
       style={styles.container}
     >
       <Text style={styles.title}>Welcome to MyChat App!</Text>
