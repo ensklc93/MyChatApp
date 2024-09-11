@@ -10,9 +10,11 @@ const Start = ({ navigation }) => {
 
   const auth = getAuth();
 
+  // Creating function for anonymous sing in according to firestore doc
   const signInUser = () => {
     signInAnonymously(auth)
       .then(result => {
+        // sending the props/parameters to the Chat component
         navigation.navigate("Chat", 
           { userID: result.user.uid, backgroundColor: backgroundColor, name: name });
         Alert.alert("Signed in Successfully!");
