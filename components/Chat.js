@@ -3,19 +3,14 @@ import { useEffect, useState } from "react"
 import { GiftedChat, Bubble, InputToolbar } from "react-native-gifted-chat";
 import { onSnapshot, query, orderBy, collection, addDoc } from "firebase/firestore";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import MapView from 'react-native-maps';
+import CustomActions from "./CustomActions";
 
 
-const Chat = ({ route, navigation, db, isConnected }) => {
-  const { name } = route.params
-  const { backgroundColor } = route.params
-  const { userID } = route.params;
+const Chat = ({ route, navigation, db, isConnected, storage }) => {
+  const { name, backgroundColor, userID } = route.params;
 
   const [messages, setMessages] = useState([]);
-
-  // Add the first item, which is the first message to the firestore database 'messages' collection
-  const onSend = (newMessages) => {
-    addDoc(collection(db, "messages"), newMessages[0])
-  }
 
   let unsubMessages;
 
@@ -35,7 +30,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
         docs.forEach(doc => {
           // Add the new message that was sent by user to the newMessages array 
           newMessages.push({
-            id: doc.id,
+            _id: doc.id,
             ...doc.data(),
             createdAt: new Date(doc.data().createdAt.toMillis())
           })
@@ -66,8 +61,27 @@ const Chat = ({ route, navigation, db, isConnected }) => {
     setMessages(JSON.parse(cachedLists));
   }
 
-
-
+  // Add the first item, which is the first message to the firestore database 'messages' collection
+  const onSend = (newMessages = []) => {
+    newMessages.forEach((message) => {
+      const messageWithMetadata = {
+        ...message,
+        createdAt: new Date(), // Set the creation date
+        user: {
+          _id: userID,
+          name: name,
+        },
+      };
+      addDoc(collection(db, "messages"), messageWithMetadata)
+        .then(() => {
+          console.log("Message sent successfully");
+        })
+        .catch((error) => {
+          console.error("Error sending message:", error);
+        });
+    });
+  };
+  
   // Message Bubble customization with props according to GiftedChat
   const renderBubble = (props) => {
     return <Bubble
@@ -86,13 +100,43 @@ const Chat = ({ route, navigation, db, isConnected }) => {
   const renderInputToolbar = (props) => {
     if (isConnected) return <InputToolbar {...props} />;
     else return null;
-   }
+  }
+
+  const renderCustomActions = (props) => {
+    return <CustomActions userID={userID} onSend={onSend} storage={storage} {...props} />;
+  };
+
+  const renderCustomView = (props) => {
+    //Using object destructuring 
+    const { currentMessage } = props;
+    if (currentMessage.location) {
+      return (
+        <MapView
+          style={{
+            width: 150,
+            height: 100,
+            borderRadius: 13,
+            margin: 3
+          }}
+          region={{
+            latitude: currentMessage.location.latitude,
+            longitude: currentMessage.location.longitude,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />
+      );
+    }
+    return null;
+  }
 
   return (
     <View style={[styles.container, { backgroundColor }]}>
       <GiftedChat
-        renderBubble={renderBubble}
         messages={messages}
+        renderBubble={renderBubble}
+        renderActions={renderCustomActions}
+        renderCustomView={renderCustomView}
         renderInputToolbar={renderInputToolbar}
         onSend={messages => onSend(messages)}
         user={{
