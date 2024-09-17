@@ -55,7 +55,7 @@ Follow these steps to set up the development environment and get the app running
 
 ```
 git clone https://github.com/ensklc93/MyChatApp.git
-cd your-repo
+cd MyChatApp
 ```
 
 ### 2. Install dependencies
