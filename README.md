@@ -109,7 +109,7 @@ To run the app on an iOS simulator, follow these steps:
 - Open the iOS simulator from Xcode, or let Expo open it for you.
 - Run the app using the following command:
 ```bash
-expo start --ios
+npx expo start --ios
 ```
 This will open the app on the iOS simulator.
 
