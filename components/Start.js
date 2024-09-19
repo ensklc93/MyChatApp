@@ -42,6 +42,9 @@ const Start = ({ navigation }) => {
           {/* Map through backgroundColors array to implement TouchableOpacity component according to the given colors  */}
           {backgroundColors.map(color =>
             <TouchableOpacity
+              accessible={true}
+              accessibilityLabel='Change background color of chat'
+              accessbilityHint='There are four color options to customize the look of the chat'
               key={color}
               style={[styles.colorPalette, { backgroundColor: color }, styles.colorBorder, backgroundColor == color && styles.clickedCircle]}
               onPress={() => setBackgroundColor(prevState =>
@@ -54,6 +57,10 @@ const Start = ({ navigation }) => {
           style={styles.touchable}
           title="Start Chatting"
           onPress={signInUser}
+          accessible={true}
+          accessibilityLabel='Enter the chat'
+          accessibilityHint='Leaves the home screen for the Chat screen'
+          accessibilityRole='Button'
         >
           <Text style={[styles.touchInnerText, styles.touchable]}>Start Chatting </Text>
         </TouchableOpacity>
