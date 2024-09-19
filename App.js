@@ -2,7 +2,7 @@ import { NavigationContainer } from "@react-navigation/native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import { useNetInfo } from '@react-native-community/netinfo';
 import { initializeApp } from "firebase/app";
-import { getFirestore, disableNetwork, enableNetwork} from "firebase/firestore";
+import { getFirestore, disableNetwork, enableNetwork } from "firebase/firestore";
 import { useEffect } from "react";
 import { Alert } from 'react-native';
 import { getStorage } from "firebase/storage";
@@ -16,12 +16,12 @@ const App = () => {
   const connectionStatus = useNetInfo();
 
   const firebaseConfig = {
-    apiKey: "AIzaSyAo2BHghED3p_qZwXDpnIq6KAfpIFRqTbs",
-    authDomain: "mychat-app-91381.firebaseapp.com",
-    projectId: "mychat-app-91381",
-    storageBucket: "mychat-app-91381.appspot.com",
-    messagingSenderId: "293446472915",
-    appId: "1:293446472915:web:ba015f2766a20e82aa7026"
+    apiKey: "API_KEY",
+    authDomain: "PROJECT_ID.firebaseapp.com",
+    projectId: "PROJECT_ID",
+    storageBucket: "PROJECT_ID.appspot.com",
+    messagingSenderId: "MESSAGING_SENDER_ID",
+    appId: "APP_ID"
   };
 
   // Initialize Firebase
